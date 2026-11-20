@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wether-bot"
+version = "0.1.0"
+description = "Hybrid weather aggregation: Telegram and REST API"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "aiogram>=3.17,<4",
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.34,<1",
+  "httpx>=0.28,<1",
+  "pydantic-settings>=2.7,<3",
+  "sqlalchemy[asyncio]>=2.0,<3",
+  "aiosqlite>=0.20,<1",
+  "apscheduler>=3.10,<4",
+  "Pillow>=11,<13",
+]
+
+[project.optional-dependencies]
+postgres = ["asyncpg>=0.30,<1"]
+redis = ["redis>=5,<8"]
+all = ["asyncpg>=0.30,<1", "redis>=5,<8"]
+dev = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2", "ruff>=0.9,<1", "httpx>=0.28,<1"]
+
+[project.scripts]
+wether-bot = "wether_bot.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
