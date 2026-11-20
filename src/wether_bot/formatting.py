@@ -1,6 +1,5 @@
 """Compact human-friendly Russian text formatting."""
 from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
 
 from .models import ForecastResult, ForecastHour
 

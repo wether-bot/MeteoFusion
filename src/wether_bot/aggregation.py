@@ -1,7 +1,7 @@
 """Combine by independent model family, not blindly by API vendor."""
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
-from statistics import mean, median
+from statistics import mean
 from zoneinfo import ZoneInfo
 
 from .models import ForecastHour, ForecastResult, SourceForecast
