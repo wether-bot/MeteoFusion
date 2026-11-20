@@ -47,7 +47,7 @@ the persistent Docker `weather_data` volume. PostgreSQL: use
 `postgresql+asyncpg://user:password@host:5432/weather` and the `postgres`
 dependency extra. Redis: set `REDIS_URL` and install the `redis` extra.
 
-Published Docker tags: `ghcr.io/wether-bot/wether-bot:latest` for a release,
+Published Docker tags: `ghcr.io/wether-bot/wether-bot:latest` for main and releases,
 `:edge` for main, and semantic version tags for release builds.
 
 ### Provider attribution and API policies
