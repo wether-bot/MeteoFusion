@@ -1,5 +1,4 @@
 """Provider adapters; all providers return canonical UTC-aware hourly data."""
-import asyncio
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 

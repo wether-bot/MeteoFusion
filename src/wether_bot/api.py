@@ -1,5 +1,4 @@
 """REST API, including API-only deployment and protected subscription settings."""
-from contextlib import suppress
 import hmac
 from typing import Literal
 

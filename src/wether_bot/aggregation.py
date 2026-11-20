@@ -22,19 +22,17 @@ def combine_forecasts(
     except (KeyError, ValueError):
         tz = timezone.utc
         tz_name = "UTC"
-    # A blended multi-model API forecast is not an independent extra weather model.
-    candidates = (
-        [f for f in forecasts if f.model_family != "blend"]
-        if any(f.model_family != "blend" for f in forecasts)
-        else forecasts
-    )
+    # Blend is the time-specific fallback, never an extra independent vote.
     groups: dict[datetime, dict[str, list[ForecastHour]]] = defaultdict(
         lambda: defaultdict(list)
     )
-    for forecast in candidates:
+    for forecast in forecasts:
         for hour in forecast.hours:
             stamp = hour.time.astimezone(timezone.utc)
             groups[stamp][forecast.model_family].append(hour)
+    for by_family in groups.values():
+        if "blend" in by_family and len(by_family) > 1:
+            by_family.pop("blend")
 
     fields = (
         "temperature_c", "feels_like_c", "humidity_pct", "precipitation_mm",
@@ -101,7 +99,7 @@ def combine_forecasts(
     return ForecastResult(
         latitude=latitude, longitude=longitude, timezone=tz_name,
         hours=result_hours, days=days_result, sources=forecasts, errors=errors or {},
-        contributor_count=len({f.model_family for f in candidates}),
+        contributor_count=max((len(groups[stamp]) for stamp in groups), default=0),
     )
 
 

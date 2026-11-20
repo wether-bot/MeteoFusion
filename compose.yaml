@@ -1,0 +1,24 @@
+services:
+  weather:
+    image: ${WEATHER_IMAGE:-ghcr.io/wether-bot/wether-bot:latest}
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:${API_PORT:-8000}:8000"
+    volumes:
+      - weather_data:/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import os,urllib.request; mode=os.environ.get('APP_MODE','all'); mode=='telegram' or urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=3).status==200"
+      interval: 45s
+      timeout: 8s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  weather_data:

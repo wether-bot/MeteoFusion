@@ -48,12 +48,6 @@ async def run() -> None:
                 dp = Dispatcher()
                 dp.include_router(create_router(service, db))
                 scheduler = AsyncIOScheduler(timezone="UTC")
-                scheduler.add_job(
-                    deliver, "interval", seconds=60, args=(bot, db, service),
-                    kwargs={}, max_instances=1, coalesce=True,
-                )
-                # Scheduler argument 'now' is evaluated on every tick, not at registration.
-                scheduler.remove_all_jobs()
                 async def tick() -> None:
                     from datetime import datetime, timezone
                     await deliver(bot, db, service, datetime.now(timezone.utc))

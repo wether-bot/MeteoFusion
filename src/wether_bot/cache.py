@@ -24,7 +24,7 @@ class Cache:
                 from redis.asyncio import from_url
                 self._redis = from_url(self.settings.redis_url, decode_responses=True)
                 await self._redis.ping()
-            except (ImportError, Exception) as exc:
+            except Exception as exc:
                 log.warning("Redis unavailable; using memory: %s", exc)
                 self._redis = None
 
